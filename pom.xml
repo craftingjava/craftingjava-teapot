@@ -19,6 +19,9 @@
     <checkstyle.header.file>${pom.basedir}/HEADER</checkstyle.header.file>
     <spring.version>5.1.6.RELEASE</spring.version>
 
+    <appengine.app.version>1</appengine.app.version>
+    <appengine.sdk.version>1.9.48</appengine.sdk.version>
+
     <app.deploy.project>GCLOUD_CONFIG</app.deploy.project>
     <app.deploy.version>GCLOUD_CONFIG</app.deploy.version>
   </properties>
@@ -27,7 +30,20 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
-      <version>5.1.6.RELEASE</version>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.appengine</groupId>
+      <artifactId>appengine-testing</artifactId>
+      <version>${appengine.sdk.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.appengine</groupId>
+      <artifactId>appengine-api-stubs</artifactId>
+      <version>${appengine.sdk.version}</version>
       <scope>test</scope>
     </dependency>
 
@@ -41,12 +57,16 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
-      <version>5.1.6.RELEASE</version>
+      <version>${spring.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
 
   <build>
+    <!-- for hot reload of the web application-->
+    <outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes
+    </outputDirectory>
+
     <finalName>${project.name}</finalName>
 
     <resources>
@@ -69,11 +89,36 @@
 
     <plugins>
       <plugin>
-        <groupId>com.google.cloud.tools</groupId>
-        <artifactId>appengine-maven-plugin</artifactId>
-        <version>2.0.0</version>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.4</version>
         <configuration>
-          <appEngineDirectory>${project.build.directory}/classes/appengine</appEngineDirectory>
+          <archiveClasses>true</archiveClasses>
+          <webResources>
+            <!-- in order to interpolate version from pom into appengine-web.xml -->
+            <resource>
+              <directory>${basedir}/src/main/webapp/WEB-INF</directory>
+              <filtering>true</filtering>
+              <targetPath>WEB-INF</targetPath>
+            </resource>
+          </webResources>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>com.google.appengine</groupId>
+        <artifactId>appengine-maven-plugin</artifactId>
+        <version>${appengine.sdk.version}</version>
+        <configuration>
+          <enableJarClasses>false</enableJarClasses>
+          <!-- Comment in the below snippet to bind to all IPs instead of just localhost -->
+          <!-- address>0.0.0.0</address>
+          <port>8080</port -->
+          <!-- Comment in the below snippet to enable local debugging with a remote debugger
+               like those included with Eclipse or IntelliJ -->
+          <jvmFlags>
+            <jvmFlag>-agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n</jvmFlag>
+          </jvmFlags>
         </configuration>
       </plugin>
 
