@@ -17,6 +17,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <checkstyle.header.file>${pom.basedir}/HEADER</checkstyle.header.file>
+
+    <servlet-api.version>3.0.1</servlet-api.version>
     <spring.version>5.1.6.RELEASE</spring.version>
 
     <appengine.app.version>1</appengine.app.version>
@@ -27,6 +29,13 @@
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>${servlet-api.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
