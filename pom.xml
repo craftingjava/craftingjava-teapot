@@ -25,7 +25,7 @@
     <maven.compiler.target>${java.version}</maven.compiler.target>
 
     <appengine.app.version>1</appengine.app.version>
-    <appengine.sdk.version>1.9.48</appengine.sdk.version>
+    <appengine.sdk.version>1.9.76</appengine.sdk.version>
 
     <app.deploy.project>GCLOUD_CONFIG</app.deploy.project>
     <app.deploy.version>GCLOUD_CONFIG</app.deploy.version>
