@@ -1,0 +1,16 @@
+steps:
+  # Run unit tests
+  # Downgrade Maven due to https://github.com/gleclaire/findbugs-maven-plugin/pull/35
+  # Use Alpine-based image to mitigate https://issues.apache.org/jira/browse/SUREFIRE-1588
+  - name: maven:3.5.4-jdk-8-alpine
+    entrypoint: 'mvn'
+    args: ['-B', 'verify']
+  # Copy code coverage report to project's build bucket
+  - name: gcr.io/cloud-builders/gsutil
+    args: ['-m', 'rsync', '-r', '-d', 'target/site/jacoco', 'gs://build.craftingjava.com/craftingjava-teapot/test/jacoco']
+  # Copy code coverage badge to project's build bucket
+  - name: gcr.io/cloud-builders/gsutil
+    args: ['cp', 'target/coverage.svg', 'gs://build.craftingjava.com/craftingjava-teapot/test']
+  # Publish release
+  - name: gcr.io/cloud-builders/gsutil
+    args: ['cp', 'target/craftingjava-teapot.war', 'gs://build.craftingjava.com/craftingjava-teapot/release/craftingjava-teapot-$SHORT_SHA.war']
