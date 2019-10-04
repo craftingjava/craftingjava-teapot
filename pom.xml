@@ -21,6 +21,9 @@
     <servlet-api.version>3.0.1</servlet-api.version>
     <spring.version>5.1.6.RELEASE</spring.version>
 
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
+
     <appengine.app.version>1</appengine.app.version>
     <appengine.sdk.version>1.9.48</appengine.sdk.version>
 
@@ -97,6 +100,16 @@
     </resources>
 
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.0</version>
+        <configuration>
+          <source>${maven.compiler.source}</source>
+          <target>${maven.compiler.source}</target>
+        </configuration>
+      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
