@@ -25,7 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HomeController {
 
-  @RequestMapping("/**")
+  @RequestMapping
   ModelAndView showPage() {
     ModelAndView modelAndView = new ModelAndView("index");
     modelAndView.setStatus(I_AM_A_TEAPOT);
