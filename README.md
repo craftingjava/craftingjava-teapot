@@ -49,6 +49,8 @@ Using lighter weight languages is a pathway to rapid prototyping some consider t
 ## Deploy
 
 ```
+% gcloud config set project <YOUR_PROJECT>
+% gcloud app create
 % ./mvnw appengine:deploy
 ```
 
