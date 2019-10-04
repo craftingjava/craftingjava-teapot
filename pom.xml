@@ -1,21 +1,170 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.craftingjava</groupId>
   <artifactId>craftingjava-teapot</artifactId>
-  <packaging>war</packaging>
   <version>1.0.0-SNAPSHOT</version>
+
+  <packaging>war</packaging>
+
   <name>craftingjava-teapot Maven Webapp</name>
   <url>http://maven.apache.org</url>
+
+  <properties>
+    <java.version>1.8</java.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <checkstyle.header.file>${pom.basedir}/HEADER</checkstyle.header.file>
+    <spring.version>5.1.6.RELEASE</spring.version>
+
+    <app.deploy.project>GCLOUD_CONFIG</app.deploy.project>
+    <app.deploy.version>GCLOUD_CONFIG</app.deploy.version>
+  </properties>
+
   <dependencies>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>5.1.6.RELEASE</version>
+      <scope>test</scope>
+    </dependency>
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>5.1.6.RELEASE</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
+
   <build>
-    <finalName>craftingjava-teapot</finalName>
+    <finalName>${project.name}</finalName>
+
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>appengine/app.yaml</include>
+        </includes>
+      </resource>
+
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>false</filtering>
+        <includes>
+          <include>**/*</include>
+        </includes>
+      </resource>
+    </resources>
+
+    <plugins>
+      <plugin>
+        <groupId>com.google.cloud.tools</groupId>
+        <artifactId>appengine-maven-plugin</artifactId>
+        <version>2.0.0</version>
+        <configuration>
+          <appEngineDirectory>${project.build.directory}/classes/appengine</appEngineDirectory>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <configLocation>checkstyle.xml</configLocation>
+          <consoleOutput>true</consoleOutput>
+          <encoding>UTF-8</encoding>
+          <failOnViolation>true</failOnViolation>
+          <failsOnError>true</failsOnError>
+          <violationSeverity>warning</violationSeverity>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <id>validate</id>
+            <phase>validate</phase>
+          </execution>
+        </executions>
+        <groupId>org.apache.maven.plugins</groupId>
+        <version>3.0.0</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <version>3.0.3</version>
+        <configuration>
+          <effort>Max</effort>
+          <threshold>Low</threshold>
+          <xmlOutput>true</xmlOutput>
+        </configuration>
+        <executions>
+          <execution>
+            <id>analyze-compile</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.3</version>
+        <executions>
+          <execution>
+            <id>coverage-initialize</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>coverage-report</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>io.github.handofgod94</groupId>
+        <artifactId>jacoco-cov-badge-maven-plugin</artifactId>
+        <version>1.0.0</version>
+        <executions>
+          <execution>
+            <id>generate-badge</id>
+            <!-- Note: Make sure in this phase jacoco csv report available -->
+            <phase>verify</phase>
+            <configuration>
+              <!-- Optional. Check wiki for more info on config parameters -->
+            </configuration>
+            <goals>
+              <goal>badge</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.21.0</version>
+      </plugin>
+    </plugins>
   </build>
+
 </project>
