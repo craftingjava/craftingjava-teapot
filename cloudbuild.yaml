@@ -12,5 +12,5 @@ steps:
   - name: gcr.io/cloud-builders/gsutil
     args: ['cp', 'target/coverage.svg', 'gs://build.craftingjava.com/$REPO_NAME/$BRANCH_NAME/test']
   # Publish release
-  - name: gcr.io/cloud-builders/gsutil
-    args: ['cp', 'target/craftingjava-teapot.war', 'gs://build.craftingjava.com/craftingjava-teapot/release/craftingjava-teapot-$SHORT_SHA.war']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['app', 'deploy', 'src/main/webapp/WEB-INF/appengine-web.xml']
