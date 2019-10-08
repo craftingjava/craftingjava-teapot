@@ -11,6 +11,7 @@ steps:
   # Copy code coverage badge to project's build bucket
   - name: gcr.io/cloud-builders/gsutil
     args: ['cp', 'target/coverage.svg', 'gs://build.craftingjava.com/$REPO_NAME/$BRANCH_NAME/test']
-  # Publish release
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['app', 'deploy', 'src/main/webapp/WEB-INF/appengine-web.xml']
+  # Deploy
+  # We need both gcloud and maven; use https://github.com/strudeau/mvn-gcloud-builder
+  - name: 'gcr.io/$PROJECT_ID/gcloud-maven'
+    args: ['mvn', 'appengine:deploy']
