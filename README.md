@@ -1,7 +1,7 @@
 # CraftingJava Teapot
 
-[![Cloud Build Status](https://storage.googleapis.com/build.craftingjava.com/build/craftingjava-teapot-master.svg)](https://github.com/sbsends/cloud-build-badge)
-[![Coverage Status](http://storage.googleapis.com/build.craftingjava.com/craftingjava-teapot/test/coverage.svg)](http://storage.googleapis.com/build.craftingjava.com/craftingjava-teapot/test/jacoco/index.html)
+[![Cloud Build Status](https://storage.googleapis.com/build.craftingjava.com/craftingjava-teapot/master/build/status.svg)](https://storage.googleapis.com/build.craftingjava.com/craftingjava-teapot/master/build/log.txt)
+[![Coverage Status](http://storage.googleapis.com/build.craftingjava.com/craftingjava-teapot/master/test/coverage.svg)](http://storage.googleapis.com/build.craftingjava.com/craftingjava-teapot/master/test/jacoco/index.html)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 Displays Darth Vader saying that he is a teapot along with a

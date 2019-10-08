@@ -7,10 +7,10 @@ steps:
     args: ['-B', 'verify']
   # Copy code coverage report to project's build bucket
   - name: gcr.io/cloud-builders/gsutil
-    args: ['-m', 'rsync', '-r', '-d', 'target/site/jacoco', 'gs://build.craftingjava.com/craftingjava-teapot/test/jacoco']
+    args: ['-m', 'rsync', '-r', '-d', 'target/site/jacoco', 'gs://build.craftingjava.com/$REPO_NAME/$BRANCH_NAME/test/jacoco']
   # Copy code coverage badge to project's build bucket
   - name: gcr.io/cloud-builders/gsutil
-    args: ['cp', 'target/coverage.svg', 'gs://build.craftingjava.com/craftingjava-teapot/test']
+    args: ['cp', 'target/coverage.svg', 'gs://build.craftingjava.com/$REPO_NAME/$BRANCH_NAME/test']
   # Publish release
   - name: gcr.io/cloud-builders/gsutil
     args: ['cp', 'target/craftingjava-teapot.war', 'gs://build.craftingjava.com/craftingjava-teapot/release/craftingjava-teapot-$SHORT_SHA.war']
