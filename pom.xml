@@ -19,7 +19,7 @@
     <checkstyle.header.file>${pom.basedir}/HEADER</checkstyle.header.file>
 
     <servlet-api.version>3.0.1</servlet-api.version>
-    <spring.version>5.1.6.RELEASE</spring.version>
+    <spring.version>5.2.20.RELEASE</spring.version>
 
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
